@@ -1,0 +1,27 @@
+services:
+  app1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+  app2:
+    build:
+      context: .
+      dockerfile: app2.Dockerfile
+      args:
+        - BASE_IMAGE=${BASE_IMAGE}
+    environment:
+      - THE_ENV_VAR='something else'
+    command: 'dotnet app2.dll arg1 arg2 arg3'
+  app2runtime:
+    build:
+      context: .
+      dockerfile: app2stage.Dockerfile
+      target: runtime
+      args:
+        - BASE_IMAGE=${BASE_IMAGE}
+    command:
+      - 'arg 1'
+      - 'arg 2'
+      - 'arg 3'
+    environment:
+      - THE_ENV_VAR='something else'
